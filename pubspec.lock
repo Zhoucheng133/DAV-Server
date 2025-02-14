@@ -93,10 +93,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: d3d4ae62c841ded5cd4a74cdb66c434dacae467b3715f340d25e086fd937a46e
+      sha256: c904b4ab56d53385563c7c39d8e9fa9af086f91495dfc48717ad84a42c3cf204
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "8.3.6"
+    version: "8.1.7"
   flutter:
     dependency: "direct main"
     description: flutter

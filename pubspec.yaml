@@ -7,7 +7,7 @@ environment:
   sdk: ^3.5.4
 
 dependencies:
-  file_picker: ^8.3.6
+  file_picker: 8.1.7
   flutter:
     sdk: flutter
   flutter_localizations:
