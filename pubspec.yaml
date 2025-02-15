@@ -14,6 +14,8 @@ dependencies:
     sdk: flutter
   get: ^4.7.2
   google_fonts: ^6.2.1
+  path: ^1.9.0
+  path_provider: ^2.1.5
   process_run: ^1.2.2+1
   shared_preferences: ^2.5.2
   window_manager: ^0.4.3
@@ -25,3 +27,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
