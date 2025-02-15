@@ -86,7 +86,6 @@ class Server {
       prefs.setString("password", password);
       prefs.setString("path", path);
       final cmd=getCmd(port, path, username, password);
-      print(cmd);
       await shell.run(cmd);
     } on ShellException catch (_) {}
   }
