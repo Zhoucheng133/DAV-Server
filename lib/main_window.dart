@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dav_server/funcs/dialogs.dart';
+import 'package:dav_server/funcs/server.dart';
 import 'package:dav_server/variables/main_var.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class MainWindow extends StatefulWidget {
 class _MainWindowState extends State<MainWindow> with WindowListener {
 
   late final SharedPreferences prefs;
+  final server=Server();
   String address="";
 
   Future<void> getAddress() async {
@@ -38,9 +40,20 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   Future<void> init() async {
     prefs = await SharedPreferences.getInstance();
     String? port=prefs.getString("port");
+    String? path=prefs.getString("path");
+    String? u=prefs.getString("username");
+    String? p=prefs.getString("password");
     setState(() {
       sharePort.text=port??"8080";
+      sharePath.text=path??"";
     });
+    if(u!=null && p!=null && u.isNotEmpty && p.isNotEmpty){
+      setState(() {
+        useAuth=true;
+        username.text=u;
+        password.text=p;
+      });
+    }
   }
 
   @override
@@ -270,37 +283,50 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Checkbox(
-                          splashRadius: 0,
-                          value: useAuth, 
-                          onChanged: m.running.value ? null : (val){
-                            if(val!=null){
+                    child: Obx(()=>
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Checkbox(
+                            splashRadius: 0,
+                            value: useAuth, 
+                            onChanged: m.running.value ? null : (val){
+                              if(val!=null){
+                                setState(() {
+                                  useAuth=val;
+                                });
+                              }
+                              if(val==true){
+                                auth(context);
+                              }
+                            }
+                          ),
+                          const SizedBox(width: 5,),
+                          GestureDetector(
+                            onTap: (){
+                              if(m.running.value){
+                                return;
+                              }
                               setState(() {
-                                useAuth=val;
+                                useAuth=!useAuth;
                               });
-                            }
-                          }
-                        ),
-                        const SizedBox(width: 5,),
-                        GestureDetector(
-                          onTap: (){
-                            if(m.running.value){
-                              return;
-                            }
-                            setState(() {
-                              useAuth=!useAuth;
-                            });
-                          },
-                          child: const MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: Text('启用登录访问')
+                              if(useAuth){
+                                auth(context);
+                              }
+                            },
+                            child: MouseRegion(
+                              cursor: m.running.value ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+                              child: Text(
+                                '启用登录访问',
+                                style: TextStyle(
+                                  color: m.running.value ? Colors.grey[400] : Colors.black
+                                ),
+                              )
+                            )
                           )
-                        )
-                      ],
-                    ),
+                        ],
+                      ),
+                    )
                   ),
                   Obx(()=>
                     FilledButton(
@@ -326,7 +352,15 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         splashRadius: 0,
                         value: m.running.value, 
                         onChanged: (val) async {
-                          // TODO 运行
+                          if(m.running.value){
+                            server.stop();
+                            m.running.value=false;
+                          }else{
+                            if(await server.checkRun(context, sharePort.text, sharePath.text)){
+                              m.running.value=true;
+                              server.run(username.text, password.text, sharePort.text, sharePath.text);
+                            }
+                          }
                         }
                       ),
                     )
