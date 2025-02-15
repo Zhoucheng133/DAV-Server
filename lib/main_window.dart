@@ -140,9 +140,13 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 return;
               }else{
                 if(username.text.isEmpty && password.text.isEmpty){
-                  useAuth=false;
+                  setState(() {
+                    useAuth=false;
+                  });
                 }else{
-                  useAuth=true;
+                  setState(() {
+                    useAuth=true;
+                  });
                 }
               }
               Navigator.pop(context);
@@ -265,9 +269,42 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          splashRadius: 0,
+                          value: useAuth, 
+                          onChanged: m.running.value ? null : (val){
+                            if(val!=null){
+                              setState(() {
+                                useAuth=val;
+                              });
+                            }
+                          }
+                        ),
+                        const SizedBox(width: 5,),
+                        GestureDetector(
+                          onTap: (){
+                            if(m.running.value){
+                              return;
+                            }
+                            setState(() {
+                              useAuth=!useAuth;
+                            });
+                          },
+                          child: const MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: Text('启用登录访问')
+                          )
+                        )
+                      ],
+                    ),
+                  ),
                   Obx(()=>
                     FilledButton(
-                      onPressed: m.running.value ? null : ()=>auth(context), 
+                      onPressed: m.running.value ? null : useAuth ? ()=>auth(context) : null, 
                       child: const Text('用户设置')
                     )
                   )
