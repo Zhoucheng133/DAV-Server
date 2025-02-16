@@ -358,7 +358,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   )
                 ],
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(height: 30,),
               Row(
                 children: [
                   const Icon(
