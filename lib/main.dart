@@ -9,7 +9,7 @@ Future<void> main() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(400, 300),
+    size: Size(400, 330),
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
