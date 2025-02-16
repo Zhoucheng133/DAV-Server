@@ -202,26 +202,21 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(child: DragToMoveArea(child: Container())),
-            Platform.isWindows? Row(
-              children: [
-                WindowCaptionButton.minimize(
-                  onPressed: ()=>windowManager.minimize()
-                ),
-                WindowCaptionButton.close(
-                  onPressed: ()=>windowManager.close(),
-                )
-              ],
-            ) : Container()
-          ],
+        Container(
+          height: 30,
+          color: Colors.transparent,
+          child: Platform.isWindows ? Row(
+            children: [
+              Expanded(child: DragToMoveArea(child: Container())),
+              WindowCaptionButton.minimize(onPressed: ()=>windowManager.minimize(),),
+              WindowCaptionButton.close(onPressed: ()=>windowManager.close(),)
+            ],
+          ) : DragToMoveArea(child: Container())
         ),
         Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
           child: Column(
             children: [
-              const SizedBox(height: 15,),
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text('分享路径')
@@ -363,7 +358,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   )
                 ],
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(height: 20,),
               Row(
                 children: [
                   const Icon(
