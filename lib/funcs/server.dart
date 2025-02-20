@@ -7,14 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:process_run/process_run.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Server {
 
   final MainVar m=Get.put(MainVar());
   late String corePath;
-  late Shell shell;
   late final SharedPreferences prefs;
 
   Future<void> init() async {
@@ -30,7 +28,6 @@ class Server {
     if (!Platform.isWindows) {
       await Process.run('chmod', ['+x', corePath]);
     }
-    shell=Shell();
   }
 
   Server(){
@@ -60,14 +57,6 @@ class Server {
     return false;
   }
 
-  String getCmd(String port, String path, String username, String password){
-    String cmd="'$corePath' -port $port -path '$path'";
-    if(username.isNotEmpty && password.isNotEmpty){
-      cmd+=" -u $username -p $password";
-    }
-    return cmd;
-  }
-
   Future<bool> portCheck(String port) async {
     try {
       int portConvert=int.parse(port);
@@ -80,19 +69,14 @@ class Server {
   }
 
   Future<void> run(String username, String password, String port, String path) async {
-     try {
-      prefs.setString("port", port);
-      prefs.setString("username", username);
-      prefs.setString("password", password);
-      prefs.setString("path", path);
-      final cmd=getCmd(port, path, username, password);
-      await shell.run(cmd);
-    } on ShellException catch (_) {}
+    prefs.setString("port", port);
+    prefs.setString("username", username);
+    prefs.setString("password", password);
+    prefs.setString("path", path);
+    // TODO start
   }
 
   void stop(){
-    try {
-      shell.kill();
-    } catch (_) {}
+    // TODO stop
   }
 }
