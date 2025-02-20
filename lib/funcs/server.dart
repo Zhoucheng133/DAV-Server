@@ -37,16 +37,12 @@ class Server {
   late final SharedPreferences prefs;
 
   late DynamicLibrary dynamicLib;
-  late StartServer startServer;
   late StopServer stopServer;
 
   Future<void> init() async {
     prefs=await SharedPreferences.getInstance();
 
-    dynamicLib=DynamicLibrary.open('server.dylib');
-    startServer=dynamicLib
-    .lookup<ffi.NativeFunction<StartServerFunc>>('StartServer')
-    .asFunction();
+    dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'server.dylib' : 'server.dll');
 
     stopServer=dynamicLib
     .lookup<ffi.NativeFunction<StopServerFunc>>('StopServer')
@@ -99,7 +95,7 @@ class Server {
     GoString goPath = param(params[1]);
     GoString goUsername = param(params[2]);
     GoString goPassword = param(params[3]);
-    final dynamicLib = DynamicLibrary.open('server.dylib');
+    final dynamicLib = DynamicLibrary.open(Platform.isMacOS ? 'server.dylib' : 'server.dll');
     StartServer startServer=dynamicLib
     .lookup<ffi.NativeFunction<StartServerFunc>>('StartServer')
     .asFunction();
