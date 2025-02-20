@@ -10,9 +10,6 @@
 
 核心组件的仓库[在这里](https://github.com/Zhoucheng133/DAV-Core)
 
-> [!NOTE]
-> 在Windows下可能会被Windows Defender或者其他安全软件误判为病毒
-
 ## 截图
 
 <img src="demo/demo.png" width="400px">
