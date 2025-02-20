@@ -1,13 +1,34 @@
+import 'dart:ffi' as ffi;
+import 'dart:ffi';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:dav_server/funcs/dialogs.dart';
 import 'package:dav_server/variables/main_var.dart';
+import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+base class GoString extends Struct {
+  external Pointer<Utf8> p;
+  @ffi.IntPtr()
+  external int n;
+}
+
+GoString param(String data){
+  final str = data.toNativeUtf8();
+  final goString = malloc<GoString>();
+  goString.ref.p = str;
+  goString.ref.n = str.length;
+  return goString.ref;
+}
+
+typedef StartServer = int Function(GoString, GoString, GoString, GoString);
+typedef StartServerFunc = ffi.Int32 Function(GoString, GoString, GoString, GoString);
+
+typedef StopServer=int Function();
+typedef StopServerFunc=ffi.Int32 Function();
 
 class Server {
 
@@ -15,19 +36,22 @@ class Server {
   late String corePath;
   late final SharedPreferences prefs;
 
+  late DynamicLibrary dynamicLib;
+  late StartServer startServer;
+  late StopServer stopServer;
+
   Future<void> init() async {
     prefs=await SharedPreferences.getInstance();
-    String supportDir=(await getApplicationSupportDirectory()).path;
-    corePath=p.join(supportDir, Platform.isWindows ? "core.exe" : "core");
-    final file = File(corePath);
-    if(!file.existsSync()){
-      final ByteData data = await rootBundle.load(Platform.isWindows ? "assets/core.exe" : "assets/core");
-      final buffer = data.buffer.asUint8List();
-      await file.writeAsBytes(buffer);
-    }
-    if (!Platform.isWindows) {
-      await Process.run('chmod', ['+x', corePath]);
-    }
+
+    dynamicLib=DynamicLibrary.open('server.dylib');
+    startServer=dynamicLib
+    .lookup<ffi.NativeFunction<StartServerFunc>>('StartServer')
+    .asFunction();
+
+    stopServer=dynamicLib
+    .lookup<ffi.NativeFunction<StopServerFunc>>('StopServer')
+    .asFunction();
+
   }
 
   Server(){
@@ -68,15 +92,31 @@ class Server {
     }
   }
 
+  late Isolate isolate;
+
+  static void isolateFunction(List params){
+    GoString goPort = param(params[0]);
+    GoString goPath = param(params[1]);
+    GoString goUsername = param(params[2]);
+    GoString goPassword = param(params[3]);
+    final dynamicLib = DynamicLibrary.open('server.dylib');
+    StartServer startServer=dynamicLib
+    .lookup<ffi.NativeFunction<StartServerFunc>>('StartServer')
+    .asFunction();
+
+    startServer(goPort, goPath, goUsername, goPassword);
+  }
+
   Future<void> run(String username, String password, String port, String path) async {
     prefs.setString("port", port);
     prefs.setString("username", username);
     prefs.setString("password", password);
     prefs.setString("path", path);
-    // TODO start
+    isolate=await Isolate.spawn(isolateFunction, [port, path, username, password]);
   }
 
-  void stop(){
-    // TODO stop
+  Future<void> stop() async {
+    stopServer();
+    isolate.kill();
   }
 }
