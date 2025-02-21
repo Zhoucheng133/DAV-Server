@@ -9,22 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-base class GoString extends Struct {
-  external Pointer<Utf8> p;
-  @IntPtr()
-  external int n;
-}
 
-GoString param(String data){
-  final str = data.toNativeUtf8();
-  final goString = malloc<GoString>();
-  goString.ref.p = str;
-  goString.ref.n = str.length;
-  return goString.ref;
-}
-
-typedef StartServer = int Function(GoString, GoString, GoString, GoString);
-typedef StartServerFunc = Int32 Function(GoString, GoString, GoString, GoString);
+typedef StartServer = void Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>);
+typedef StartServerFunc = Void Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>);
 
 typedef StopServer=int Function();
 typedef StopServerFunc=Int32 Function();
@@ -89,17 +76,13 @@ class Server {
 
   late Isolate isolate;
 
-  static void isolateFunction(List params){
-    GoString goPort = param(params[0]);
-    GoString goPath = param(params[1]);
-    GoString goUsername = param(params[2]);
-    GoString goPassword = param(params[3]);
+  static void isolateFunction(List<String> params){
     final dynamicLib = DynamicLibrary.open(Platform.isMacOS ? 'server.dylib' : 'server.dll');
     StartServer startServer=dynamicLib
     .lookup<NativeFunction<StartServerFunc>>('StartServer')
     .asFunction();
 
-    startServer(goPort, goPath, goUsername, goPassword);
+    startServer(params[0].toNativeUtf8(), params[1].toNativeUtf8(), params[2].toNativeUtf8(), params[3].toNativeUtf8());
   }
 
   Future<void> run(String username, String password, String port, String path) async {
