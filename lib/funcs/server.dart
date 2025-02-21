@@ -1,4 +1,3 @@
-import 'dart:ffi' as ffi;
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:isolate';
@@ -12,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 base class GoString extends Struct {
   external Pointer<Utf8> p;
-  @ffi.IntPtr()
+  @IntPtr()
   external int n;
 }
 
@@ -25,10 +24,10 @@ GoString param(String data){
 }
 
 typedef StartServer = int Function(GoString, GoString, GoString, GoString);
-typedef StartServerFunc = ffi.Int32 Function(GoString, GoString, GoString, GoString);
+typedef StartServerFunc = Int32 Function(GoString, GoString, GoString, GoString);
 
 typedef StopServer=int Function();
-typedef StopServerFunc=ffi.Int32 Function();
+typedef StopServerFunc=Int32 Function();
 
 class Server {
 
@@ -45,7 +44,7 @@ class Server {
     dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'server.dylib' : 'server.dll');
 
     stopServer=dynamicLib
-    .lookup<ffi.NativeFunction<StopServerFunc>>('StopServer')
+    .lookup<NativeFunction<StopServerFunc>>('StopServer')
     .asFunction();
 
   }
@@ -97,7 +96,7 @@ class Server {
     GoString goPassword = param(params[3]);
     final dynamicLib = DynamicLibrary.open(Platform.isMacOS ? 'server.dylib' : 'server.dll');
     StartServer startServer=dynamicLib
-    .lookup<ffi.NativeFunction<StartServerFunc>>('StartServer')
+    .lookup<NativeFunction<StartServerFunc>>('StartServer')
     .asFunction();
 
     startServer(goPort, goPath, goUsername, goPassword);
