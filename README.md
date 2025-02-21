@@ -27,7 +27,15 @@
 
 ## 在你的设备上配置DAV Server
 
-// 待补充
+### 在macOS上
+- 安装Flutter到你的设备上
+- 使用Visual Studio Code打开项目即可
+
+### 在Windows上
+- 你需要前往[核心组件的仓库](https://github.com/Zhoucheng133/DAV-Core)下载（或自行编译）dll动态库
+- 安装Flutter到你的设备上
+- 使用Visual Studio Code打开项目
+- 在Debug或者Release中把dll复制到**输出位置**的根目录
 
 ## 更新日志
 
