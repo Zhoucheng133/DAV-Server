@@ -380,7 +380,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                           }else{
                             if(await server.checkRun(context, sharePort.text, sharePath.text)){
                               m.running.value=true;
-                              server.run(username.text, password.text, sharePort.text, sharePath.text);
+                              server.run(useAuth ? username.text : "", useAuth ? password.text : "", sharePort.text, sharePath.text);
                             }
                           }
                         }
