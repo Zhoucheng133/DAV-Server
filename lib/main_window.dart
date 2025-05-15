@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:dav_server/funcs/dialogs.dart';
 import 'package:dav_server/funcs/server.dart';
 import 'package:dav_server/variables/main_var.dart';
@@ -370,6 +371,9 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     child: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
+                        onTap: (){
+                          FlutterClipboard.copy("$address:${sharePort.text}");
+                        },
                         child: ValueListenableBuilder(
                           valueListenable: sharePort, 
                           builder: (context, value, child)=>Text("$address:${value.text}")
