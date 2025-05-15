@@ -365,7 +365,18 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     Icons.podcasts_rounded,
                   ),
                   const SizedBox(width: 5,),
-                  Text("$address:${sharePort.text}"),
+                  Tooltip(
+                    message: "点击复制地址",
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        child: ValueListenableBuilder(
+                          valueListenable: sharePort, 
+                          builder: (context, value, child)=>Text("$address:${value.text}")
+                        ),
+                      ),
+                    ),
+                  ),
                   Expanded(child: Container()),
                   Obx(()=>
                     Transform.scale(
