@@ -5,6 +5,7 @@ import 'dart:isolate';
 import 'package:dav_server/funcs/dialogs.dart';
 import 'package:dav_server/variables/main_var.dart';
 import 'package:ffi/ffi.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +20,6 @@ typedef StopServerFunc=Int32 Function();
 class Server {
 
   final MainVar m=Get.put(MainVar());
-  late String corePath;
   late final SharedPreferences prefs;
 
   late DynamicLibrary dynamicLib;
@@ -31,12 +31,12 @@ class Server {
     dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'server.dylib' : 'server.dll');
 
     stopServer=dynamicLib
-    .lookup<NativeFunction<StopServerFunc>>('StopServer')
-    .asFunction();
+        .lookup<NativeFunction<StopServerFunc>>('StopServer')
+        .asFunction();
 
   }
 
-  Server(){
+    Server(){
     init();
   }
 
@@ -52,6 +52,7 @@ class Server {
         return false;
       }
     } catch (_) {
+      showErr(context, "启动服务失败", "端口必须是数字");
       return false;
     }
     if(await portCheck(port)){
@@ -69,20 +70,25 @@ class Server {
       final server = await ServerSocket.bind("0.0.0.0", portConvert);
       await server.close();
       return true;
-    } catch (e) {
+    } catch (_) {
       return false;
     }
   }
 
-  late Isolate isolate;
+  Isolate? isolate;
 
   static void isolateFunction(List<String> params){
     final dynamicLib = DynamicLibrary.open(Platform.isMacOS ? 'server.dylib' : 'server.dll');
     StartServer startServer=dynamicLib
-    .lookup<NativeFunction<StartServerFunc>>('StartServer')
-    .asFunction();
+        .lookup<NativeFunction<StartServerFunc>>('StartServer')
+        .asFunction();
 
-    startServer(params[0].toNativeUtf8(), params[1].toNativeUtf8(), params[2].toNativeUtf8(), params[3].toNativeUtf8());
+    startServer(
+      params[0].toNativeUtf8(), // port
+      params[1].toNativeUtf8(), // path
+      params[2].toNativeUtf8(), // username
+      params[3].toNativeUtf8(), // password
+    );
   }
 
   Future<void> run(String username, String password, String port, String path) async {
@@ -94,7 +100,18 @@ class Server {
   }
 
   Future<void> stop() async {
-    stopServer();
-    isolate.kill();
+    if (isolate != null) {
+      await compute(stopServerHandler, Platform.isMacOS ? 'server.dylib' : 'server.dll');
+      isolate!.kill(priority: Isolate.immediate);
+      isolate = null;
+    }
+  }
+
+  static void stopServerHandler(String libName) {
+    final lib = DynamicLibrary.open(libName);
+    final stop = lib
+        .lookup<NativeFunction<StopServerFunc>>('StopServer')
+        .asFunction<StopServer>();
+    stop();
   }
 }
