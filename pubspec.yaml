@@ -9,7 +9,7 @@ environment:
 dependencies:
   clipboard: ^0.1.3
   ffi: ^2.1.3
-  file_picker: 8.1.7
+  file_picker: ^10.2.0
   flutter:
     sdk: flutter
   flutter_localizations:
