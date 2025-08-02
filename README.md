@@ -23,7 +23,9 @@
 
 ### 客户端（访问文件的设备）
 
-你可以使用任何支持访问WebDAV的文件管理软件来访问
+你可以使用任何支持访问WebDAV的文件管理软件来访问，建议使用:
+- Documents (iOS)
+- [质感文件](https://github.com/zhanghai/MaterialFiles) (Android)
 
 ## 在你的设备上配置DAV Server
 
