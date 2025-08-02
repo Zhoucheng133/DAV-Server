@@ -8,6 +8,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -23,6 +25,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   late final SharedPreferences prefs;
   final server=Server();
   String address="";
+  String version="";
 
   @override
   void onWindowClose() async {
@@ -73,6 +76,10 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     setState(() {
       sharePort.text=port??"8080";
       sharePath.text=path??"";
+    });
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      version="v${packageInfo.version}";
     });
     if(u!=null && p!=null && u.isNotEmpty && p.isNotEmpty){
       setState(() {
@@ -373,6 +380,12 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       child: GestureDetector(
                         onTap: (){
                           FlutterClipboard.copy("$address:${sharePort.text}");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("已复制"),
+                              duration: Duration(milliseconds: 500), // 设置显示 1 秒
+                            ),
+                          );
                         },
                         child: ValueListenableBuilder(
                           valueListenable: sharePort, 
@@ -403,6 +416,29 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     )
                   )
                 ]
+              ),
+              const SizedBox(height: 10,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: Image.asset("assets/icon.png")
+                  ),
+                  const SizedBox(width: 5,),
+                  GestureDetector(
+                    onTap: (){
+                      
+                    },
+                    child: Text(
+                      version,
+                      style: GoogleFonts.notoSansSc(
+                        fontSize: 13,
+                      ),
+                    ),
+                  )
+                ],
               )
             ],
           ),
