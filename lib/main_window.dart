@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
 class MainWindow extends StatefulWidget {
@@ -418,27 +419,36 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 ]
               ),
               const SizedBox(height: 10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: Image.asset("assets/icon.png")
-                  ),
-                  const SizedBox(width: 5,),
-                  GestureDetector(
-                    onTap: (){
-                      
-                    },
-                    child: Text(
-                      version,
-                      style: GoogleFonts.notoSansSc(
-                        fontSize: 13,
-                      ),
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: (){
+                    final Uri url = Uri.parse('https://github.com/Zhoucheng133/DAV-Server');
+                    try {
+                      launchUrl(url);
+                    } catch (_) {}
+                  },
+                  child: Tooltip(
+                    message: "显示项目地址",
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: Image.asset("assets/icon.png")
+                        ),
+                        const SizedBox(width: 5,),
+                        Text(
+                          version,
+                          style: GoogleFonts.notoSansSc(
+                            fontSize: 13,
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
+                  ),
+                ),
               )
             ],
           ),
