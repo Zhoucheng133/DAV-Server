@@ -16,7 +16,6 @@ dependencies:
     sdk: flutter
   get: ^4.7.2
   google_fonts: ^6.2.1
-  package_info_plus: ^8.3.0
   path: ^1.9.0
   shared_preferences: ^2.5.2
   url_launcher: ^6.3.2
