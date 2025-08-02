@@ -383,6 +383,12 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       child: GestureDetector(
                         onTap: (){
                           FlutterClipboard.copy("$address:${sharePort.text}");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("已复制"),
+                              duration: Duration(milliseconds: 500),
+                            ),
+                          );
                         },
                         child: ValueListenableBuilder(
                           valueListenable: sharePort, 
