@@ -19,6 +19,7 @@ dependencies:
   package_info_plus: ^8.3.0
   path: ^1.9.0
   shared_preferences: ^2.5.2
+  url_launcher: ^6.3.2
   window_manager: ^0.4.3
 
 dev_dependencies:
