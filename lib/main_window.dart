@@ -181,9 +181,19 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           }
         ),
         actions: [
+          TextButton(
+            onPressed: (){
+              setState(() {
+                useAuth=false;
+                username.text="";
+                password.text="";
+              });
+              Navigator.pop(context);
+            }, 
+            child: const Text("取消")
+          ),
           FilledButton(
             onPressed: (){
-              
               if((username.text.isEmpty && password.text.isNotEmpty) || (username.text.isNotEmpty && password.text.isEmpty)){
                 showErr(context, "设置失败", "用户名和密码必须都要填写或都不填写");
                 return;
