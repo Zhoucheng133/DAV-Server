@@ -33,9 +33,9 @@ flutter:
     - assets/
 
 msix_config:
-  display_name: Bit Flow
+  display_name: DAV Server
   publisher_display_name: ZhouCheng
-  identity_name: ZhouCheng.BitFlow
+  identity_name: ZhouCheng.DAVServer
   msix_version: 1.1.6.0
   logo_path: assets/icon.png
   trim_logo: false
