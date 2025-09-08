@@ -12,6 +12,7 @@ Future<void> main() async {
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.hidden,
+    title: "DAV Server"
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
