@@ -6,6 +6,8 @@
 
 ![License](https://img.shields.io/badge/License-MIT-dark_green)
 
+<a href="https://apps.microsoft.com/store/detail/9NH45RP8H8RL?cid=DevShareMCLPCS"><img src="demo/ms_badge.svg" width="150px"></a>
+
 这是一个在本地搭建WebDAV服务的软件，可以快速地创建一个WebDAV服务器，支持用户身份验证
 
 核心组件的仓库[在这里](https://github.com/Zhoucheng133/DAV-Core)
