@@ -1,5 +1,5 @@
 const Map<String, String> enUS = {
-  'sharePath': 'Share Path',
+  'sharePath': 'Shared Folder',
   'port': 'Port',
   'select': 'Select',
   'useAuth': 'Authentication',
