@@ -336,7 +336,6 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                               }
                             }
                           ),
-                          const SizedBox(width: 5,),
                           GestureDetector(
                             onTap: (){
                               if(controller.running.value){
