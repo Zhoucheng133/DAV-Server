@@ -3,11 +3,9 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:dav_server/funcs/dialogs.dart';
-import 'package:dav_server/variables/main_var.dart';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -18,8 +16,6 @@ typedef StopServer=int Function();
 typedef StopServerFunc=Int32 Function();
 
 class Server {
-
-  final MainVar m=Get.put(MainVar());
   late final SharedPreferences prefs;
 
   late DynamicLibrary dynamicLib;

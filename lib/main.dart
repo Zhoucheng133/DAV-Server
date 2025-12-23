@@ -1,5 +1,11 @@
+import 'package:dav_server/lang/en_us.dart';
+import 'package:dav_server/lang/zh_cn.dart';
+import 'package:dav_server/lang/zh_tw.dart';
 import 'package:dav_server/main_window.dart';
+import 'package:dav_server/controllers/controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -18,17 +24,44 @@ Future<void> main() async {
     await windowManager.show();
     await windowManager.focus();
   });
-
+  final controller=Get.put(Controller());
+  controller.init();
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainTranslations extends Translations {
+  @override
+  Map<String, Map<String, String>> get keys => {
+    'en_US': enUS,
+    'zh_CN': zhCN,
+    'zh_TW': zhTW,
+  };
+}
+
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
   @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+
+  final Controller controller=Get.find();
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      locale: controller.lang.value.locale,
+      translations: MainTranslations(),
+      fallbackLocale: const Locale('en', 'US'),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+      ],
+      supportedLocales: supportedLocales.map((item)=>item.locale).toList(),
       theme: ThemeData(
         textTheme: GoogleFonts.notoSansScTextTheme(),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),

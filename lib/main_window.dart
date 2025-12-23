@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
+import 'package:dav_server/controllers/controller.dart';
 import 'package:dav_server/funcs/dialogs.dart';
 import 'package:dav_server/funcs/server.dart';
-import 'package:dav_server/variables/main_var.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,7 +28,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   void onWindowClose() async {
     bool isPreventClose = await windowManager.isPreventClose();
     if (isPreventClose) {
-      if(m.running.value){
+      if(controller.running.value){
         showDialog(
           // ignore: use_build_context_synchronously
           context: context, 
@@ -101,7 +101,8 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
 
   TextEditingController sharePath=TextEditingController();
   TextEditingController sharePort=TextEditingController();
-  final m=Get.put(MainVar());
+
+  final controller=Get.find<Controller>();
   
   bool useAuth=false;
   TextEditingController username=TextEditingController();
@@ -260,7 +261,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   const SizedBox(width: 10,),
                   Obx(()=>
                     FilledButton(
-                      onPressed: m.running.value ? null : () async {
+                      onPressed: controller.running.value ? null : () async {
                         String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
                         if(selectedDirectory!=null){
                           setState(() {
@@ -284,7 +285,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   Expanded(
                     child: Obx(()=>
                       TextField(
-                        enabled: !m.running.value,
+                        enabled: !controller.running.value,
                         controller: sharePort,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
@@ -323,7 +324,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                           Checkbox(
                             splashRadius: 0,
                             value: useAuth, 
-                            onChanged: m.running.value ? null : (val){
+                            onChanged: controller.running.value ? null : (val){
                               if(val!=null){
                                 setState(() {
                                   useAuth=val;
@@ -337,7 +338,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                           const SizedBox(width: 5,),
                           GestureDetector(
                             onTap: (){
-                              if(m.running.value){
+                              if(controller.running.value){
                                 return;
                               }
                               setState(() {
@@ -348,11 +349,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                               }
                             },
                             child: MouseRegion(
-                              cursor: m.running.value ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+                              cursor: controller.running.value ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
                               child: Text(
                                 '启用登录访问',
                                 style: TextStyle(
-                                  color: m.running.value ? Colors.grey[400] : Colors.black
+                                  color: controller.running.value ? Colors.grey[400] : Colors.black
                                 ),
                               )
                             )
@@ -363,7 +364,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   ),
                   Obx(()=>
                     FilledButton(
-                      onPressed: m.running.value ? null : useAuth ? ()=>auth(context) : null, 
+                      onPressed: controller.running.value ? null : useAuth ? ()=>auth(context) : null, 
                       child: const Text('用户设置')
                     )
                   )
@@ -403,14 +404,14 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       scale: 0.8,
                       child: Switch(
                         splashRadius: 0,
-                        value: m.running.value, 
+                        value: controller.running.value, 
                         onChanged: (val) async {
-                          if(m.running.value){
+                          if(controller.running.value){
                             server.stop();
-                            m.running.value=false;
+                            controller.running.value=false;
                           }else{
                             if(await server.checkRun(context, sharePort.text, sharePath.text)){
-                              m.running.value=true;
+                              controller.running.value=true;
                               server.run(useAuth ? username.text : "", useAuth ? password.text : "", sharePort.text, sharePath.text);
                             }
                           }
