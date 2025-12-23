@@ -1,2 +1,19 @@
 const Map<String, String> zhTW = {
+  'sharePath': '分享路徑',
+  'port': '連接埠',
+  'select': '選擇',
+  'useAuth': '使用驗證',
+  'authSetting': '驗證設定',
+  'username': '用戶名',
+  'password': '密碼',
+  'setFailed': '設定失敗',
+  'usernamePasswordBoth': '用戶名與密碼必須同時填寫或同時留空',
+  'allowAnonymous': '若允許匿名存取請留空',
+  'cancel': '取消',
+  'ok': '完成',
+  'clickToCopy': '點擊複製',
+  'copyed': '已複製',
+  'serviceRunning': '服務正在運行中',
+  'youNeedToStop': '你需要先停止服務才能離開',
+  'language': '語言'
 };
