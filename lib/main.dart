@@ -20,12 +20,12 @@ Future<void> main() async {
     titleBarStyle: TitleBarStyle.hidden,
     title: "DAV Server"
   );
+  final controller=Get.put(Controller());
+  await controller.init();
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
     await windowManager.focus();
   });
-  final controller=Get.put(Controller());
-  controller.init();
   runApp(const MainApp());
 }
 
@@ -51,24 +51,26 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      locale: controller.lang.value.locale,
-      translations: MainTranslations(),
-      fallbackLocale: const Locale('en', 'US'),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
-      ],
-      supportedLocales: supportedLocales.map((item)=>item.locale).toList(),
-      theme: ThemeData(
-        textTheme: GoogleFonts.notoSansScTextTheme(),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
-      ),
-      home: const Scaffold(
-        body: MainWindow()
-      ),
+    return Obx(()=>
+      GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        locale: controller.lang.value.locale,
+        translations: MainTranslations(),
+        fallbackLocale: const Locale('en', 'US'),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
+        ],
+        supportedLocales: supportedLocales.map((item)=>item.locale).toList(),
+        theme: ThemeData(
+          textTheme: GoogleFonts.notoSansScTextTheme(),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+        ),
+        home: const Scaffold(
+          body: MainWindow()
+        ),
+      )
     );
   }
 }

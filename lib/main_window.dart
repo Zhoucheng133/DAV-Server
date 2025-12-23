@@ -33,12 +33,12 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           // ignore: use_build_context_synchronously
           context: context, 
           builder: (BuildContext context)=>AlertDialog(
-            title: const Text('服务在运行中'),
-            content: const Text('你需要先关闭服务才能退出'),
+            title: Text('serviceRunning'.tr),
+            content: Text('youNeedToStop'.tr),
             actions: [
               FilledButton(
                 onPressed: ()=>Navigator.pop(context), 
-                child: const Text('好的')
+                child: Text('ok'.tr)
               )
             ],
           )
@@ -111,8 +111,9 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   void auth(BuildContext context){
     showDialog(
       context: context, 
+      barrierDismissible: false, 
       builder: (context)=>AlertDialog(
-        title: const Text('用户设置'),
+        title: Text('authSetting'.tr),
         content: StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Column(
@@ -129,10 +130,10 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       borderSide: const BorderSide(color: Colors.teal, width: 2.0),
                       borderRadius: BorderRadius.circular(10)
                     ),
-                    hintText: '如果允许匿名访问则留空',
+                    hintText: 'allowAnonymous'.tr,
                     isCollapsed: true,
-                    labelText: "用户名",
-                    contentPadding: const EdgeInsets.only(top: 15, bottom: 10, left: 10, right: 10),
+                    labelText: "username".tr,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
                     hintStyle: TextStyle(
                       color: Colors.grey[400]
                     )
@@ -155,9 +156,9 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       borderSide: const BorderSide(color: Colors.teal, width: 2.0),
                       borderRadius: BorderRadius.circular(10)
                     ),
-                    labelText: "密码",
+                    labelText: "password".tr,
                     isCollapsed: true,
-                    contentPadding: const EdgeInsets.only(top: 15, bottom: 10, left: 10, right: 10),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
                     hintStyle: TextStyle(
                       color: Colors.grey[400]
                     )
@@ -183,12 +184,12 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
               });
               Navigator.pop(context);
             }, 
-            child: const Text("取消")
+            child: Text("cancel".tr)
           ),
           FilledButton(
             onPressed: (){
               if((username.text.isEmpty && password.text.isNotEmpty) || (username.text.isNotEmpty && password.text.isEmpty)){
-                showErr(context, "设置失败", "用户名和密码必须都要填写或都不填写");
+                showErr(context, "setFailed".tr, "usernamePasswordBoth".tr);
                 return;
               }else{
                 if(username.text.isEmpty && password.text.isEmpty){
@@ -203,7 +204,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
               }
               Navigator.pop(context);
             }, 
-            child: const Text('完成')
+            child: Text('ok'.tr)
           )
         ],
       )
@@ -229,9 +230,9 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
           child: Column(
             children: [
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
-                child: Text('分享路径')
+                child: Text('sharePath'.tr)
               ),
               const SizedBox(height: 5,),
               Row(
@@ -246,7 +247,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)
                           ),
-                          hintText: '选择分享路径',
+                          hintText: 'sharePath'.tr,
                           isCollapsed: true,
                           contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10)
                         ),
@@ -269,15 +270,15 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                           });
                         }
                       }, 
-                      child: const Text('选择')
+                      child: Text('select'.tr)
                     )
                   )
                 ],
               ),
               const SizedBox(height: 15,),
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
-                child: Text('端口号')
+                child: Text('port'.tr)
               ),
               const SizedBox(height: 5,),
               Row(
@@ -351,7 +352,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                             child: MouseRegion(
                               cursor: controller.running.value ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
                               child: Text(
-                                '启用登录访问',
+                                'useAuth'.tr,
                                 style: TextStyle(
                                   color: controller.running.value ? Colors.grey[400] : Colors.black
                                 ),
@@ -365,7 +366,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   Obx(()=>
                     FilledButton(
                       onPressed: controller.running.value ? null : useAuth ? ()=>auth(context) : null, 
-                      child: const Text('用户设置')
+                      child: Text('authSetting'.tr)
                     )
                   )
                 ],
@@ -378,15 +379,15 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   ),
                   const SizedBox(width: 5,),
                   Tooltip(
-                    message: "点击复制地址",
+                    message: "clickToCopy".tr,
                     child: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
                         onTap: (){
                           FlutterClipboard.copy("$address:${sharePort.text}");
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("已复制"),
+                            SnackBar(
+                              content: Text("copyed".tr),
                               duration: Duration(milliseconds: 500),
                             ),
                           );
