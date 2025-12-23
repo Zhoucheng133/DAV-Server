@@ -1,5 +1,7 @@
 # DAV Server
 
+Also available in English. Click [HERE](/documents/en.md) to view the English version of the README
+
 ## 简介
 
 <img src="assets/icon.png" width="100px">
@@ -16,7 +18,7 @@
 
 ## 截图
 
-<img src="demo/demo.png" width="400px">
+<img src="demo/cn.png" width="400px">
 
 ## 使用
 
