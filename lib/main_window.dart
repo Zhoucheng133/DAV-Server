@@ -311,6 +311,22 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       ),
                     )
                   ),
+                  const SizedBox(width: 10,),
+                  PopupMenuButton<LanguageType>(
+                    borderRadius: BorderRadius.circular(20),
+                    tooltip: 'language'.tr,
+                    icon: Icon(Icons.translate_rounded, size: 22,),
+                    itemBuilder: (context)=>supportedLocales.map((e) {
+                      return PopupMenuItem<LanguageType>(
+                        value: e,
+                        child: Text(e.name),
+                      );
+                    }).toList(),
+                    onSelected: (LanguageType value){
+                      int index=supportedLocales.indexWhere((element) => element.locale==value.locale);
+                      controller.changeLanguage(index);
+                    },
+                  )
                 ],
               ),
               const SizedBox(height: 15,),
