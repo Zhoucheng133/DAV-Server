@@ -15,5 +15,6 @@ const Map<String, String> zhTW = {
   'copyed': '已複製',
   'serviceRunning': '服務正在運行中',
   'youNeedToStop': '你需要先停止服務才能離開',
-  'language': '語言'
+  'language': '語言',
+  'anonymousAccess': '匿名訪問',
 };

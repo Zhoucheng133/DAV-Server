@@ -15,5 +15,6 @@ const Map<String, String> enUS = {
   'copyed': 'Copied',
   'serviceRunning': 'Service is running',
   'youNeedToStop': 'You need to stop the service before exiting',
-  'language': 'Language'
+  'language': 'Language',
+  'anonymousAccess': 'Anonymous Access',
 };

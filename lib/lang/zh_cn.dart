@@ -15,5 +15,6 @@ const Map<String, String> zhCN = {
   'copyed': '已复制',
   'serviceRunning': '服务在运行中',
   'youNeedToStop': '你需要先关闭服务才能退出',
-  'language': '语言'
+  'language': '语言',
+  'anonymousAccess': '匿名访问',
 };

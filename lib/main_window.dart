@@ -148,6 +148,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 TextField(
                   controller: password,
                   decoration: InputDecoration(
+                    hintText: 'allowAnonymous'.tr,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.teal[100]!, width: 1.0),
                       borderRadius: BorderRadius.circular(10)
@@ -282,37 +283,48 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   child: Text('port'.tr)
                 ),
                 const SizedBox(height: 5,),
+                Obx(()=>
+                  TextField(
+                    enabled: !controller.running.value,
+                    controller: sharePort,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.teal[100]!, width: 1.0),
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.teal, width: 2.0),
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      isCollapsed: true,
+                      contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10)
+                    ),
+                    autocorrect: false,
+                    enableSuggestions: false,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 15,),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: Obx(()=>
-                        TextField(
-                          enabled: !controller.running.value,
-                          controller: sharePort,
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.teal[100]!, width: 1.0),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.teal, width: 2.0),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            isCollapsed: true,
-                            contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10)
-                          ),
-                          autocorrect: false,
-                          enableSuggestions: false,
-                          style: const TextStyle(
-                            fontSize: 14,
-                          ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                        ),
+                    Obx(()=>
+                      FilledButton(
+                        onPressed: controller.running.value ? null : ()=>auth(context), 
+                        child: Text('authSetting'.tr)
                       )
                     ),
                     const SizedBox(width: 10,),
+                    if(!useAuth) Tooltip(
+                      message: 'anonymousAccess'.tr,
+                      child: Icon(Icons.info_outline_rounded, size: 20,),
+                    ),
+                    Expanded(child: Container()),
                     PopupMenuButton<LanguageType>(
                       borderRadius: BorderRadius.circular(18),
                       tooltip: 'language'.tr,
@@ -328,62 +340,6 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         int index=supportedLocales.indexWhere((element) => element.locale==value.locale);
                         controller.changeLanguage(index);
                       },
-                    )
-                  ],
-                ),
-                const SizedBox(height: 15,),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Obx(()=>
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Checkbox(
-                              splashRadius: 0,
-                              value: useAuth, 
-                              onChanged: controller.running.value ? null : (val){
-                                if(val!=null){
-                                  setState(() {
-                                    useAuth=val;
-                                  });
-                                }
-                                if(val==true){
-                                  auth(context);
-                                }
-                              }
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                                if(controller.running.value){
-                                  return;
-                                }
-                                setState(() {
-                                  useAuth=!useAuth;
-                                });
-                                if(useAuth){
-                                  auth(context);
-                                }
-                              },
-                              child: MouseRegion(
-                                cursor: controller.running.value ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
-                                child: Text(
-                                  'useAuth'.tr,
-                                  style: TextStyle(
-                                    color: controller.running.value ? Colors.grey[400] : Colors.black
-                                  ),
-                                )
-                              )
-                            )
-                          ],
-                        ),
-                      )
-                    ),
-                    Obx(()=>
-                      FilledButton(
-                        onPressed: controller.running.value ? null : useAuth ? ()=>auth(context) : null, 
-                        child: Text('authSetting'.tr)
-                      )
                     )
                   ],
                 ),
