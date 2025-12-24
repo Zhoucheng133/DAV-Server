@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,8 +24,30 @@ class Controller extends GetxController {
 
   late SharedPreferences prefs;
 
+  RxBool anonymous=true.obs;
+  TextEditingController sharePath=TextEditingController();
+  TextEditingController sharePort=TextEditingController();
+  TextEditingController username=TextEditingController();
+  TextEditingController password=TextEditingController();
+
+
+  void initPrefs(){
+    String? port=prefs.getString("port");
+    String? path=prefs.getString("path");
+    String? u=prefs.getString("username");
+    String? p=prefs.getString("password");
+    sharePort.text=port??"8080";
+    sharePath.text=path??"";
+    if(u!=null && p!=null && u.isNotEmpty && p.isNotEmpty){
+      anonymous.value=false;
+      username.text=u;
+      password.text=p;
+    }
+  }
+
   Future<void> init() async {
     prefs=await SharedPreferences.getInstance();
+    initPrefs();
 
     int? langIndex=prefs.getInt("langIndex");
 
