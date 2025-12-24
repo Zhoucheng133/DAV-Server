@@ -51,6 +51,9 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
+
+    final brightness = MediaQuery.of(context).platformBrightness;
+
     return Obx(()=>
       GetMaterialApp(
         debugShowCheckedModeBanner: false,
@@ -63,9 +66,18 @@ class _MainAppState extends State<MainApp> {
           GlobalCupertinoLocalizations.delegate
         ],
         supportedLocales: supportedLocales.map((item)=>item.locale).toList(),
-        theme: ThemeData(
-          textTheme: GoogleFonts.notoSansScTextTheme(),
+        theme: brightness==Brightness.dark ? ThemeData.dark().copyWith(
+          textTheme: GoogleFonts.notoSansScTextTheme().apply(
+            bodyColor: Colors.white,
+            displayColor: Colors.white, 
+          ),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.teal,
+            brightness: Brightness.dark,
+          ),
+        ) : ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+          textTheme: GoogleFonts.notoSansScTextTheme(),
         ),
         home: const Scaffold(
           body: MainWindow()
