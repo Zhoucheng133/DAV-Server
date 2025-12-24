@@ -1,7 +1,5 @@
 # DAV Server
 
-Also available in English. Click [HERE](/documents/en.md) to view the English version of the README
-
 ## Introduction
 
 <img src="../assets/icon.png" width="100px">
