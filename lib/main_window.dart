@@ -20,7 +20,6 @@ class MainWindow extends StatefulWidget {
 class _MainWindowState extends State<MainWindow> with WindowListener {
 
   final server=Server();
-  String address="";
 
   @override
   void onWindowClose() async {
@@ -48,24 +47,9 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     }
   }
 
-  Future<void> getAddress() async {
-    final interfaces = await NetworkInterface.list();
-    for (final interface in interfaces) {
-      final addresses = interface.addresses;
-      final localAddresses = addresses.where((address) => !address.isLoopback && address.type.name=="IPv4");
-      for (final localAddress in localAddresses) {
-        setState(() {
-          address=localAddress.address;
-        });
-        return;
-      }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    getAddress();
     windowManager.addListener(this);
   }
 
@@ -326,7 +310,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                           cursor: SystemMouseCursors.click,
                           child: GestureDetector(
                             onTap: (){
-                              FlutterClipboard.copy("$address:${controller.sharePort.text}");
+                              FlutterClipboard.copy("${controller.address.value}:${controller.sharePort.text}");
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text("copyed".tr),
@@ -336,7 +320,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                             },
                             child: ValueListenableBuilder(
                               valueListenable: controller.sharePort, 
-                              builder: (context, value, child)=>Text("$address:${value.text}")
+                              builder: (context, value, child)=>Text("${controller.address.value}:${value.text}")
                             ),
                           ),
                         ),

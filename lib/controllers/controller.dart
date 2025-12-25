@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class Controller extends GetxController {
   TextEditingController sharePort=TextEditingController();
   TextEditingController username=TextEditingController();
   TextEditingController password=TextEditingController();
+  RxString address="".obs;
 
 
   void initPrefs(){
@@ -47,6 +49,7 @@ class Controller extends GetxController {
 
   Future<void> init() async {
     prefs=await SharedPreferences.getInstance();
+    await getAddress();
     initPrefs();
 
     int? langIndex=prefs.getInt("langIndex");
@@ -61,6 +64,18 @@ class Controller extends GetxController {
       }
     }else{
       lang.value=supportedLocales[langIndex];
+    }
+  }
+
+  Future<void> getAddress() async {
+    final interfaces = await NetworkInterface.list();
+    for (final interface in interfaces) {
+      final addresses = interface.addresses;
+      final localAddresses = addresses.where((address) => !address.isLoopback && address.type.name=="IPv4");
+      for (final localAddress in localAddresses) {
+        address.value=localAddress.address;
+        return;
+      }
     }
   }
 
