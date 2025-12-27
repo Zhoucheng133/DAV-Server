@@ -6,7 +6,6 @@ import 'package:dav_server/controllers/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 
 Future<void> main() async {
@@ -68,18 +67,20 @@ class _MainAppState extends State<MainApp> {
           GlobalCupertinoLocalizations.delegate
         ],
         supportedLocales: supportedLocales.map((item)=>item.locale).toList(),
-        theme: brightness==Brightness.dark ? ThemeData.dark().copyWith(
-          textTheme: GoogleFonts.notoSansScTextTheme().apply(
-            bodyColor: Colors.white,
-            displayColor: Colors.white, 
-          ),
+        theme: ThemeData(
+          brightness: brightness,
+          fontFamily: 'Noto', 
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.teal,
-            brightness: Brightness.dark,
+            brightness: brightness,
           ),
-        ) : ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
-          textTheme: GoogleFonts.notoSansScTextTheme(),
+          textTheme: brightness==Brightness.dark ? ThemeData.dark().textTheme.apply(
+            fontFamily: 'Noto',
+            bodyColor: Colors.white,
+            displayColor: Colors.white,
+          ) : ThemeData.light().textTheme.apply(
+            fontFamily: 'Noto',
+          ),
         ),
         home: const Scaffold(
           body: MainWindow()

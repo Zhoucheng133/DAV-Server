@@ -15,7 +15,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   get: ^4.7.2
-  google_fonts: ^6.2.1
   msix: ^3.16.12
   path: ^1.9.0
   shared_preferences: ^2.5.2
@@ -29,6 +28,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: "Noto"
+      fonts:
+        - asset: assets/NotoSansSC-Regular.ttf
   assets:
     - assets/
 
