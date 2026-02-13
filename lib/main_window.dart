@@ -93,10 +93,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                           controller.anonymous.value=!controller.anonymous.value;
                         });
                       },
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Text('anonymousAccess'.tr)
-                      )
+                      child: Text('anonymousAccess'.tr)
                     )
                   ],
                 ),
