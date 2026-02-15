@@ -326,6 +326,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       Transform.scale(
                         scale: 0.8,
                         child: Switch(
+                          mouseCursor: SystemMouseCursors.basic,
                           splashRadius: 0,
                           value: controller.running.value, 
                           onChanged: (val) async {
