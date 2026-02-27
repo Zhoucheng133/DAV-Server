@@ -103,16 +103,16 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 controller: controller.username,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.teal[100]!, width: 1.0),
+                    borderSide: BorderSide(color: Colors.teal[800]!.withAlpha(100), width: 1.0),
                     borderRadius: BorderRadius.circular(10)
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.teal, width: 2.0),
+                    borderSide: BorderSide(color: Colors.teal[800]!, width: 2.0),
                     borderRadius: BorderRadius.circular(10)
                   ),
                   isCollapsed: true,
                   labelText: "username".tr,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
                   hintStyle: TextStyle(
                     color: Colors.grey[400]
                   )
@@ -128,16 +128,16 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 controller: controller.password,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.teal[100]!, width: 1.0),
+                    borderSide: BorderSide(color: Colors.teal[800]!.withAlpha(100), width: 1.0),
                     borderRadius: BorderRadius.circular(10)
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.teal, width: 2.0),
+                    borderSide: BorderSide(color: Colors.teal[800]!, width: 2.0),
                     borderRadius: BorderRadius.circular(10)
                   ),
                   labelText: "password".tr,
                   isCollapsed: true,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
                   hintStyle: TextStyle(
                     color: Colors.grey[400]
                   )
@@ -201,14 +201,19 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                           message: controller.sharePath.text,
                           child: TextField(
                             controller: controller.sharePath,
-                            enabled: false,
+                            readOnly: true,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.teal[800]!.withAlpha(100), width: 1.0),
+                              ),
+                              focusedBorder:  OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.teal[800]!.withAlpha(100), width: 1.0),
                               ),
                               hintText: 'sharePath'.tr,
                               isCollapsed: true,
-                              contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10)
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                             ),
                             autocorrect: false,
                             enableSuggestions: false,
@@ -243,15 +248,19 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     controller: controller.sharePort,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.teal[100]!, width: 1.0),
+                        borderSide: BorderSide(color: Colors.teal[800]!.withAlpha(100), width: 1.0),
                         borderRadius: BorderRadius.circular(10)
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.teal, width: 2.0),
+                        borderSide: BorderSide(color: Colors.teal[800]!, width: 2.0),
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey[300]!, width: 1.0),
                         borderRadius: BorderRadius.circular(10)
                       ),
                       isCollapsed: true,
-                      contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10)
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                     ),
                     autocorrect: false,
                     enableSuggestions: false,
