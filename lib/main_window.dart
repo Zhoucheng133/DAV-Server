@@ -256,7 +256,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         borderRadius: BorderRadius.circular(10)
                       ),
                       disabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey[300]!, width: 1.0),
+                        borderSide: BorderSide(color: Theme.of(context).brightness==Brightness.light ? Colors.grey[300]! : Colors.grey[900]!, width: 1.0),
                         borderRadius: BorderRadius.circular(10)
                       ),
                       isCollapsed: true,
