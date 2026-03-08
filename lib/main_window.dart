@@ -205,11 +205,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: Colors.teal[800]!.withAlpha(100), width: 1.0),
+                                borderSide: BorderSide(color: Colors.teal[800]!.withAlpha(50), width: 1.0),
                               ),
                               focusedBorder:  OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: Colors.teal[800]!.withAlpha(100), width: 1.0),
+                                borderSide: BorderSide(color: Colors.teal[800]!.withAlpha(50), width: 1.0),
                               ),
                               hintText: 'sharePath'.tr,
                               isCollapsed: true,
