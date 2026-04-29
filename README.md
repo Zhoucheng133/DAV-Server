@@ -44,3 +44,7 @@ Also available in English. Click [HERE](/documents/en.md) to view the English ve
 - 安装Flutter到你的设备上
 - 使用Visual Studio Code打开项目
 - 在Debug或者Release中把dll复制到**输出位置**的根目录
+
+## 赞助
+
+如果有帮助到了你，欢迎[给我投喂](https://blog.z-server.top/sponsor/)谢谢 🙏

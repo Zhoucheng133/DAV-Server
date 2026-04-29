@@ -42,3 +42,7 @@ You can use any file management software that supports WebDAV access. Recommende
 - Install Flutter on your device
 - Open the project using Visual Studio Code
 - In Debug or Release mode, copy the DLL to the root directory of the **output location**
+
+## Sponsor
+
+If this project was helpful, consider [buying me a coffee](https://blog.z-server.top/sponsor/). Cheers! ☕
