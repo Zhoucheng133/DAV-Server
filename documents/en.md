@@ -12,6 +12,10 @@
 
 This is a piece of software that allows you to set up a WebDAV service locally. It enables you to quickly create a WebDAV server and supports user authentication.
 
+**★ DAV Server** | [DAV Docker](https://github.com/Zhoucheng133/DAV-with-Docker)
+
+If you need a service with Docker, visit [DAV Docker](https://github.com/Zhoucheng133/DAV-with-Docker) repo.
+
 The repository for the core component is [here](https://github.com/Zhoucheng133/DAV-Core).
 
 ## Screenshots

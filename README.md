@@ -14,6 +14,10 @@ Also available in English. Click [HERE](/documents/en.md) to view the English ve
 
 这是一个在本地搭建WebDAV服务的软件，可以快速地创建一个WebDAV服务器，支持用户身份验证
 
+**★ DAV Server** | [DAV Docker](https://github.com/Zhoucheng133/DAV-with-Docker)
+
+如果你需要一个搭建在Docker的WebDAV服务，见[DAV Docker](https://github.com/Zhoucheng133/DAV-with-Docker)
+
 核心组件的仓库[在这里](https://github.com/Zhoucheng133/DAV-Core)
 
 ## 截图
